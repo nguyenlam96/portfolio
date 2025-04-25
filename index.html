@@ -1,0 +1,284 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Continua - iOS App Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .screenshot {
+            transition: transform 0.3s ease-in-out;
+        }
+        .screenshot:hover {
+            transform: scale(1.05);
+        }
+        body {
+            background-color: #1a1a2e;
+            color: #ffffff;
+        }
+        h1, h2 {
+            color: #f5c518;
+        }
+        p {
+            color: #d1d1d1;
+        }
+    </style>
+</head>
+<body class="font-sans">
+    <!-- Header -->
+    <header class="bg-gray-900 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl font-bold">Continua</h1>
+            <p class="mt-2 text-lg">Your Healthcare Companion</p>
+        </div>
+    </header>
+
+    <!-- App Description -->
+    <section class="py-12">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-semibold text-center mb-6">About Continua</h2>
+            <p class="text-lg max-w-2xl mx-auto text-center">
+                Continua is an iOS app designed to empower patients by helping them record their health conditions and book appointments with practitioners through online meetings. 
+                With features like symptom tracking, profile management, and seamless video consultations, Continua makes healthcare accessible and efficient. Built with Swift for a smooth user experience.
+            </p>
+        </div>
+    </section>
+
+    <!-- Screenshot Gallery -->
+    <section class="bg-gray-800 py-12">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-semibold text-center mb-8">Screenshots</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Screenshot 1 -->
+                <div class="screenshot rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://lh3.googleusercontent.com/p/AF1QipOvaTCMwl7uAph-JrJItuFf82PknhXtAeW0kjm3=s0" alt="Login Screen" class="w-full h-auto">
+                    <div class="p-4 text-center">
+                        <h3 class="text-lg font-semibold text-f5c518">Login Screen</h3>
+                        <p class="text-sm mt-2">The login screen welcomes users back to Continua, offering a secure entry point with email and password fields. Users can also register or recover their password with ease.</p>
+                    </div>
+                </div>
+                <!-- Screenshot 2 -->
+                <div class="screenshot rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://lh3.googleusercontent.com/p/AF1QipPYU4k1iQL9jcchLMVHWaNtPth163yJ7xYq_61c=s0" alt="Home Screen with Upcoming Appointment" class="w-full h-auto">
+                    <div class="p-4 text-center">
+                        <h3 class="text-lg font-semibold text-f5c518">Home Screen with Upcoming Appointment</h3>
+                        <p class="text-sm mt-2">The home screen provides a quick overview of upcoming appointments, health tracking options like surveys and food journals, and easy access to assistance and adherence tools.</p>
+                    </div>
+                </div>
+                <!-- Screenshot 3 -->
+                <div class="screenshot rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://lh3.googleusercontent.com/p/AF1QipMx9nGfreOpLLiiDjaYVT728UDeQ6Qocv0EiyGn=s0" alt="Practitioner Selection Screen" class="w-full h-auto">
+                    <div class="p-4 text-center">
+                        <h3 class="text-lg font-semibold text-f5c518">Practitioner Selection Screen</h3>
+                        <p class="text-sm mt-2">Users can browse a list of available practitioners, view their specialties, locations, and recent activity, making it easy to find the right doctor for their needs.</p>
+                    </div>
+                </div>
+                <!-- Screenshot 4 -->
+                <div class="screenshot rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://lh3.googleusercontent.com/p/AF1QipPyPkXmZKX5im8OVr25eAPaKzSo3UVqISdAFzq7=s0" alt="Doctor Profile and Scheduling Screen" class="w-full h-auto">
+                    <div class="p-4 text-center">
+                        <h3 class="text-lg font-semibold text-f5c518">Doctor Profile and Scheduling Screen</h3>
+                        <p class="text-sm mt-2">This screen displays a doctor's profile, including their credentials and availability. Users can select a date, duration, and time slot to schedule an appointment.</p>
+                    </div>
+                </div>
+                <!-- Screenshot 5 -->
+                <div class="screenshot rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://lh3.googleusercontent.com/p/AF1QipMoT59UqkvrRK4Ezw1zxB0DPApIvIGHM0p5LLCC=s0" alt="Appointment Booking Screen" class="w-full h-auto">
+                    <div class="p-4 text-center">
+                        <h3 class="text-lg font-semibold text-f5c518">Appointment Booking Screen</h3>
+                        <p class="text-sm mt-2">Users can confirm their appointment details, select the appointment type (e.g., video), and specify the reason for the visit before booking.</p>
+                    </div>
+                </div>
+                <!-- Screenshot 6 -->
+                <div class="screenshot rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://lh3.googleusercontent.com/p/AF1QipP256NpYwoNS6EHYEXNCLZuxBu_rANLMiLvhqXO=s0" alt="Payment Screen" class="w-full h-auto">
+                    <div class="p-4 text-center">
+                        <h3 class="text-lg font-semibold text-f5c518">Payment Screen</h3>
+                        <p class="text-sm mt-2">The payment screen allows users to review the appointment cost, select a payment method, and securely complete the transaction to confirm their booking.</p>
+                    </div>
+                </div>
+                <!-- Screenshot 7 -->
+                <div class="screenshot rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://lh3.googleusercontent.com/p/AF1QipPS4PKyRH5tk61k46rkriO6fJCnhaMnSaPR8ndd=s0" alt="User Profile Screen" class="w-full h-auto">
+                    <div class="p-4 text-center">
+                        <h3 class="text-lg font-semibold text-f5c518">User Profile Screen</h3>
+                        <p class="text-sm mt-2">The user profile screen lets patients manage their personal information, including contact details, address, and documents like passports or driver's licenses.</p>
+                    </div>
+                </div>
+                <!-- Screenshot 8 -->
+                <div class="screenshot rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://lh3.googleusercontent.com/p/AF1QipPzDUhTqe7wJApXuIwUKIdPyMI2x62OTsLXr59b=s0" alt="Video Consultation Screen" class="w-full h-auto">
+                    <div class="p-4 text-center">
+                        <h3 class="text-lg font-semibold text-f5c518">Video Consultation Screen</h3>
+                        <p class="text-sm mt-2">This screen enables seamless video consultations with practitioners, offering controls for muting, ending the call, and accessing chat features for a smooth experience.</p>
+                    </div>
+                </div>
+                <!-- Screenshot 9 -->
+                <div class="screenshot rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://lh3.googleusercontent.com/p/AF1QipMOUu4E1dSNbyMDhHWSoAOIVxxzdCTGA0rm6mhi=s0" alt="Health Condition Recording Screen" class="w-full h-auto">
+                    <div class="p-4 text-center">
+                        <h3 class="text-lg font-semibold text-f5c518">Health Condition Recording Screen</h3>
+                        <p class="text-sm mt-2">Patients can record their health conditions by selecting affected areas on a body map and rating the severity of symptoms and stress levels for better tracking.</p>
+                    </div>
+                </div>
+                <!-- Screenshot 10 -->
+                <div class="screenshot rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://lh3.googleusercontent.com/p/AF1QipNfrhSyiGC_ifJNjb6GWbDdJGJHumZ3onCWjT6h=s0" alt="Head Condition Assessment Screen" class="w-full h-auto">
+                    <div class="p-4 text-center">
+                        <h3 class="text-lg font-semibold text-f5c518">Head Condition Assessment Screen</h3>
+                        <p class="text-sm mt-2">This detailed assessment screen allows users to specify head-related symptoms, such as pain or itching, and rate their severity, with the option to upload photos for documentation.</p>
+                    </div>
+                </div>
+                <!-- Screenshot 11 -->
+                <div class="screenshot rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://lh3.googleusercontent.com/p/AF1QipO3OTHAAPR2rGDzHP5ovZTY0EKTi8VwjECYNCzk=s0" alt="Chest Condition Assessment Screen" class="w-full h-auto">
+                    <div class="p-4 text-center">
+                        <h3 class="text-lg font-semibold text-f5c518">Chest Condition Assessment Screen</h3>
+                        <p class="text-sm mt-2">Users can document chest-related symptoms like heart flutter or chest pain, specify severity, and add detailed notes to share with their practitioner.</p>
+                    </div>
+                </div>
+                <!-- Screenshot 12: Adding Payment Method -->
+                <div class="screenshot rounded-lg overflow-hidden shadow-lg">
+                    <img src="https://lh3.googleusercontent.com/p/AF1QipOW5v48cJm16cbtgIfLfHDC5ao27RsooV7fSPli=s0" alt="Adding Payment Method Screen" class="w-full h-auto">
+                    <div class="p-4 text-center">
+                        <h3 class="text-lg font-semibold text-f5c518">Adding Payment Method Screen</h3>
+                        <p class="text-sm mt-2">This screen allows users to add a new payment method by entering card details manually or scanning their card, ensuring a secure and convenient payment setup for appointments.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>Developed by Leo Nguyen</p>
+            <p class="mt-2">
+                <a href="/cdn-cgi/l/email-protection#9af6fff5eef2fffeffeca3acdafdf7fbf3f6b4f9f5f7" class="underline text-f5c518">Contact Me</a> | 
+                <a href="https://yourwebsite.com" class="underline text-f5c518">Portfolio</a> | 
+                <a href="https://apps.apple.com/your-app-link" class="underline text-f5c518">App Store</a>
+            </p>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script>
+        document.querySelectorAll('.screenshot').forEach(item => {
+            item.addEventListener('click', () => {
+                console.log('Screenshot clicked');
+            });
+        });
+    </script>
+    <script>
+        (function(){
+            function c(){
+                var b=a.contentDocument||a.contentWindow.document;
+                if(b){
+                    var d=b.createElement('script');
+                    d.innerHTML="window.__CF$cv$params={r:'935b73aedad253da',t:'MTc0NTU1OTA2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+                    b.getElementsByTagName('head')[0].appendChild(d)
+                }
+            }
+            if(document.body){
+                var a=document.createElement('iframe');
+                a.height=1;
+                a.width=1;
+                a.style.position='absolute';
+                a.style.top=0;
+                a.style.left=0;
+                a.style.border='none';
+                a.style.visibility='hidden';
+                document.body.appendChild(a);
+                if('loading'!==document.readyState)c();
+                else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);
+                else{
+                    var e=document.onreadystatechange||function(){};
+                    document.onreadystatechange=function(b){
+                        e(b);
+                        'loading'!==document.readyState&&(document.onreadystatechange=e,c())
+                    }
+                }
+            }
+        })();
+    </script>
+</body>
+</html>
